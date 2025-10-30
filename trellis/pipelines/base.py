@@ -2,6 +2,7 @@ from typing import *
 import torch
 import torch.nn as nn
 from .. import models
+import inspect
 
 
 class Pipeline:
@@ -25,8 +26,10 @@ class Pipeline:
         """
         import os
         import json
-        is_local = os.path.exists(f"{path}/pipeline.json")
-
+        
+        directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+        path = os.path.join(directory, "..", "..", path)
+        is_local = os.path.exists(f"{path}/pipeline.json") 
         if is_local:
             config_file = f"{path}/pipeline.json"
         else:
